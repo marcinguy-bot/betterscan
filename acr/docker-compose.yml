@@ -3,10 +3,9 @@ x-platform: &platform
 
 services:
   server:
-    image: gcr.io/YOUR_PROJECT_ID/betterscan-server:${ARCH:-amd64}-latest
+    image: ${AZURE_REGISTRY_NAME}.azurecr.io/betterscan-server:${ARCH:-amd64}-latest
     restart: always
     environment:
-      LIC: ${LIC}
       OPENAI_GPT_API: ${OPENAI_GPT_API}
     depends_on:
       - postgres
@@ -16,9 +15,9 @@ services:
     ports:
       - 5001:5000
     volumes:
-      - ./data1:/srv/betterscan/quantifiedcode/data/
-      - ./data2:/srv/betterscan/quantifiedcode/backend/data/tasks
-      - ./setup_state:/srv/betterscan/setup_state
+      - data1:/srv/betterscan/quantifiedcode/data/
+      - data2:/srv/betterscan/quantifiedcode/backend/data/tasks
+      - setup_state:/srv/betterscan/setup_state
     <<: *platform
 
   postgres:
@@ -35,7 +34,7 @@ services:
       - db-data:/var/lib/postgresql/data
 
   worker_1:
-    image: gcr.io/YOUR_PROJECT_ID/betterscan-worker:${ARCH:-amd64}-latest
+    image: ${AZURE_REGISTRY_NAME}.azurecr.io/betterscan-worker:${ARCH:-amd64}-latest
     ulimits:
       stack: -1
     restart: always
@@ -50,8 +49,8 @@ services:
     entrypoint: sh
     command: -c "python3.8 /srv/betterscan/manage.py runworker"
     volumes:
-      - ./data1:/srv/betterscan/quantifiedcode/data/
-      - ./data2:/srv/betterscan/quantifiedcode/backend/data/tasks
+      - data1:/srv/betterscan/quantifiedcode/data/
+      - data2:/srv/betterscan/quantifiedcode/backend/data/tasks
     <<: *platform
 
   rabbitmq3:
@@ -70,6 +69,12 @@ services:
       retries: 1
 
 volumes:
+  data1:
+    driver: local
+  data2:
+    driver: local
+  setup_state:
+    driver: local
   db-data:
     driver: local
 
