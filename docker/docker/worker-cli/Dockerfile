@@ -72,21 +72,6 @@ RUN pip install psycopg2 --upgrade
 RUN ln -s /srv/scanmycode/quantifiedcode/settings/default.yml /srv/scanmycode/settings.yml
 
 
-# Install Go
-RUN GO_JSON=$(curl -s https://go.dev/dl/?mode=json) && \
-    GO_LATEST=$(echo "$GO_JSON" | jq -r '.[0].version') && \
-    ARCH=$(uname -m) && \
-    case $ARCH in \
-        x86_64) GO_ARCH="amd64" ;; \
-        aarch64) GO_ARCH="arm64" ;; \
-        armv7l) GO_ARCH="armv6l" ;; \
-        *) echo "Unsupported architecture: $ARCH"; exit 1 ;; \
-    esac && \
-    GO_URL="https://dl.google.com/go/${GO_LATEST}.linux-${GO_ARCH}.tar.gz" && \
-    curl -O $GO_URL && \
-    tar -C /usr/local -xzf ${GO_LATEST}.linux-${GO_ARCH}.tar.gz && \
-    rm ${GO_LATEST}.linux-${GO_ARCH}.tar.gz
-
 # Install Go tools
 RUN /root/.go/bin/go install github.com/securego/gosec/v2/cmd/gosec@latest
 RUN mkdir /root/bin
@@ -141,8 +126,6 @@ RUN bash -c "bash /tmp/install --daemon"
 RUN bash -c "/root/.nix-profile/bin/nix-env -if https://github.com/fluidattacks/makes/archive/22.11.tar.gz"
 RUN bash -c "/root/.nix-profile/bin/m gitlab:fluidattacks/universe@trunk /skims"
 
-# Check Betterscan.io
-RUN curl --silent --output /dev/null https://dl.betterscan.io/docker-build-worker-cli.html
 
 
 
