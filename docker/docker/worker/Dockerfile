@@ -1,4 +1,4 @@
-FROM python:3.8-slim
+FROM python:3.12-slim
 
 # Arguments for non-interactive installation and setting timezone
 ARG DEBIAN_FRONTEND=noninteractive
@@ -49,17 +49,13 @@ ENV PATH=$PATH:/usr/local/go/bin
 RUN gem install brakeman
 
 # Clone the checkmate repository and install
-RUN pip install --upgrade pip && pip install checkmate5
+RUN pip install --upgrade pip && pip install checkmate5 aigraphcodescan
 
 # Clone and install other repositories
-RUN git clone https://github.com/tcosolutions/betterscan.git /srv/betterscan && \
-    git clone https://github.com/tcosolutions/graudit-ce.git /root/graudit && \
-    git clone https://github.com/tcosolutions/text4shell-ce.git /root/text4shell-ce
+RUN git clone https://github.com/tcosolutions/betterscan.git /srv/betterscan
 
 # Set up additional tools
-RUN cp /srv/betterscan/analyzers/find_unicode_control2.py /usr/local/bin/ && \
-    go install honnef.co/go/tools/cmd/staticcheck@latest && \
-    go install github.com/tcosolutions/ptpt@latest && \
+RUN go install honnef.co/go/tools/cmd/staticcheck@latest && \
     cp /root/go/bin/staticcheck /usr/local/bin/staticcheck && \
     curl https://raw.githubusercontent.com/aquasecurity/tfsec/master/scripts/install_linux.sh | bash && \
     curl https://raw.githubusercontent.com/armosec/kubescape/master/install.sh | bash
