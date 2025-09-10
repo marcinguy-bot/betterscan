@@ -1,4 +1,4 @@
-FROM python:3.8-slim 
+FROM python:3.12-slim 
 
 # Arguments for non-interactive installation and setting timezone
 ARG DEBIAN_FRONTEND=noninteractive
@@ -13,7 +13,7 @@ RUN pip install pip
 
 # Clone repositories and set up projects
 RUN mkdir -p /srv && \
-    git clone https://github.com/tcosolutions/betterscan /srv/betterscan && \
+    git clone https://github.com/marcinguy-bot/betterscan /srv/betterscan && \
     cd /srv/betterscan && \
     pip install pip && \
     pip install virtualenv && \
