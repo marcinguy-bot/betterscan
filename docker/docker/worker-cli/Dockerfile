@@ -1,33 +1,61 @@
 FROM python:3.12-slim
 
-# Install necessary packages and dependencies
-RUN apt update && apt install -y \
-    libcurl4-nss-dev \
+# Arguments for non-interactive installation and setting timezone
+ARG DEBIAN_FRONTEND=noninteractive
+ENV CONTAINER_TIMEZONE=UTC
+ENV TZ=${CONTAINER_TIMEZONE}
+ENV SHELL=/bin/bash
+ENV PIPENV_IGNORE_VIRTUALENVS=1
+
+# Install basic dependencies and set up environment in one RUN command
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ca-certificates \
+    curl \
+    tar \
     libssl-dev \
-    tree \
     git \
-    sudo \
     ssh \
     rubygems \
     python3-pip \
     npm \
     php \
-    default-jdk \
     pipenv \
-    rsync \
-    jo \
-    wget \
     unzip \
-    ca-certificates
+    jq \
+    gcc  \
+    build-essential && \
+    ln -snf /usr/share/zoneinfo/$CONTAINER_TIMEZONE /etc/localtime && \
+    echo $CONTAINER_TIMEZONE > /etc/timezone
+
+# Install Go
+RUN GO_JSON=$(curl -s https://go.dev/dl/?mode=json) && \
+    GO_LATEST=$(echo "$GO_JSON" | jq -r '.[0].version') && \
+    ARCH=$(uname -m) && \
+    case $ARCH in \
+        x86_64) GO_ARCH="amd64" ;; \
+        aarch64) GO_ARCH="arm64" ;; \
+        armv7l) GO_ARCH="armv6l" ;; \
+        *) echo "Unsupported architecture: $ARCH"; exit 1 ;; \
+    esac && \
+    GO_URL="https://dl.google.com/go/${GO_LATEST}.linux-${GO_ARCH}.tar.gz" && \
+    curl -O $GO_URL && \
+    tar -C /usr/local -xzf ${GO_LATEST}.linux-${GO_ARCH}.tar.gz && \
+    rm ${GO_LATEST}.linux-${GO_ARCH}.tar.gz
+
+# Set up Go environment variables
+ENV PATH=$PATH:/usr/local/go/bin
+
+# Install Ruby and npm packages
+RUN gem install brakeman
+
+# Clone the checkmate repository and install
+RUN pip install --upgrade pip && pip install checkmate5 aigraphcodescan
+
+# Clone and install other repositories
+RUN git clone https://github.com/marcinguy-bot/betterscan.git /srv/scanmycode
 
 # Set the working directory to the root
 WORKDIR /
-
-# Clone the scanmycode-ce repository from marcinguy-bot
-RUN mkdir -p /srv
-RUN git clone https://github.com/marcinguy-bot/betterscan.git /srv/scanmycode
-WORKDIR /srv/scanmycode
-RUN git pull
 
 # Install Python dependencies using pipenv
 RUN pipenv install --system
