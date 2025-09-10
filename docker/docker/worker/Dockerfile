@@ -52,7 +52,7 @@ RUN gem install brakeman
 RUN pip install --upgrade pip && pip install checkmate5 aigraphcodescan
 
 # Clone and install other repositories
-RUN git clone https://github.com/tcosolutions/betterscan.git /srv/betterscan
+RUN git clone https://github.com/marcinguy-bot/betterscan.git /srv/betterscan
 
 # Set up additional tools
 RUN go install honnef.co/go/tools/cmd/staticcheck@latest && \
