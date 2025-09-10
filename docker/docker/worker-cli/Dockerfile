@@ -1,4 +1,4 @@
-FROM python:3.8-slim AS builder
+FROM python:3.12-slim AS builder
 
 ARG DEBIAN_FRONTEND=noninteractive
 ENV SHELL=/bin/bash
@@ -33,7 +33,7 @@ RUN gem install brakeman
 RUN pip install pip && pip install checkmate5 aigraphcodescan
 
 # Clone and install other repositories
-RUN git clone https://github.com/tcosolutions/betterscan.git /srv/betterscan
+RUN git clone https://github.com/marcinguy-bot/betterscan.git /srv/betterscan
 
 # Set up additional tools
 RUN go install honnef.co/go/tools/cmd/staticcheck@latest && \
