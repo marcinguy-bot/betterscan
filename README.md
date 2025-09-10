@@ -1,5 +1,6 @@
 
-
+  
+  
 <div align="center">
   <a href="https://github.com/tcosolutions/betterscan">
     <img alt="Betterscan" src="https://cdn.prod.website-files.com/6339e3b81867539b5fe2498d/6662b3cba2059f268d0ada99_cloud%20(Website).svg">
@@ -15,18 +16,19 @@ Released under [AGPL-3.0](/LICENSE) by [@tcosolutions](https://github.com/tcosol
 
 Scan your source code and infra IaC against top **security** risks
 
+Betterscan is a orchestration toolchain that uses state of the art tools to scan your source code and infrastructure IaC and analyzes your security and compliance risks.
+
+Currently supports: **Java**, **Python**, **PERL**, **Ruby**, **C**, **C++**, **Javascript**, **Typescript**, **GO**, Infrastructure as a Code (IaC) Security and Best Practices (**Docker**, **Kubernetes (k8s)**, **Terraform AWS, GCP, Azure**), Secret Scanning, Trojan Source, Open Source and Proprietary Checks.
+
+Checks for misconfigurations across all major (and some minor) cloud providers (AWS Checks, Azure Checks, GCP Checks, CloudStack Checks, DigitalOcean Checks, GitHub Checks, Kubernetes Checks, OpenStack Checks, Oracle Checks)
 
 
-## Overview
-
-**Betterscan** is a state-of-the-art orchestration toolchain designed to scan your source code and Infrastructure as Code (IaC) for **security** and **compliance** risks. 
- 
 ## Open and Developer friendly DevSecOps toolchain
 
 Betterscan uses many tools for Code, Cloud, secrets. All the best Tools, researched, setup, ran together, unifed and de-duplicated results, **so you don't have to do it**. Added our own checkers also. Continuous Security. Fit for purpose and results.
 
-Betterscan is performing security reviews of codebases using graph analysis. It utilizes Neo4j and Fast GraphRAG to query and visualize relationships within the code, helping identify potential security risks and vulnerabilities by analyzing the structure and flow of the code (using AI capabilities for this). Done via `aigraphcodescan` plugin.
 
+More info in **[Wiki](https://github.com/tcosolutions/betterscan/wiki)**
 
 ## License Information
 
@@ -112,5 +114,41 @@ Run in command prompt in your Git repository folder:
   
 `sh <(curl https://raw.githubusercontent.com/tcosolutions/betterscan/main/cli-html.sh)`
 
+### 2. Platform with Webinterface and workers
+
+#### Docker
+
+If you need CI/CD and Web Interface, you need Docker-Compose installed as well, if you don't already have it.
+
+Run in command prompt:
+
+```
+git clone git@github.com:tcosolutions/betterscan.git
+cd betterscan/dockerhub
+docker compose up
+```
+
+#### Kubernetest / Minikube
+
+Installable via helm chart.
+
+
+Helm Chart for Betterscan.io DevSecOps Toolchain platform
+
+Please install under name betterscan
+```
+helm repo add betterscan-repo https://marcinguy.github.io/betterscan-chart
+helm repo update
+helm install betterscan betterscan-repo/betterscan
+```
+
+Open up the Browser to:
+
+`http://localhost:5000`
+
+Sign up locally (and login in when needed)
+
 
 That's it.
+
+Read more in the **[Wiki](https://github.com/tcosolutions/betterscan/wiki)**
