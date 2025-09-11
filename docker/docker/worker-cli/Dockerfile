@@ -54,37 +54,22 @@ RUN pip install --upgrade pip && pip install checkmate5 aigraphcodescan
 # Clone and install other repositories
 RUN git clone https://github.com/marcinguy-bot/betterscan.git /srv/scanmycode
 
-# Set the working directory to the root
-WORKDIR /
-
-# Install Python dependencies using pipenv
-RUN pipenv install --system
-
-# Install additional Python packages
-RUN pip install Rich checkmate5 aigraphcodescan
-
-
-# Install psycopg2 for PostgreSQL connectivity
-WORKDIR /
-RUN pip install psycopg2 --upgrade
 
 # Create symbolic link
 RUN ln -s /srv/scanmycode/quantifiedcode/settings/default.yml /srv/scanmycode/settings.yml
 
 
 # Install Go tools
-RUN /root/.go/bin/go install github.com/securego/gosec/v2/cmd/gosec@latest
-RUN mkdir /root/bin
+RUN go install github.com/securego/gosec/v2/cmd/gosec@latest
 RUN cp /root/go/bin/gosec /root/bin/gosec
-RUN /root/.go/bin/go install github.com/google/osv-scanner/cmd/osv-scanner@v1
+RUN go install github.com/google/osv-scanner/cmd/osv-scanner@v1
 RUN cp /root/go/bin/osv-scanner /root/bin/osv-scanner
-RUN /root/.go/bin/go install honnef.co/go/tools/cmd/staticcheck@latest
+RUN go install honnef.co/go/tools/cmd/staticcheck@latest
 RUN cp /root/go/bin/staticcheck /root/bin/staticcheck
 
 # Install other tools
 RUN gem install brakeman
-RUN python3 -m pip install bandit
-RUN python3 -m pip install semgrep
+RUN pip install bandit
 RUN npm install -g jshint
 
 # Download and extract PMD
@@ -101,9 +86,7 @@ RUN mkdir -p /usr/local/lib/python3.12/site-packages/checkmate-0.2.0-py3.12.egg/
 RUN cp /srv/scanmycode/analyzers/json_reporter.js /usr/local/lib/python3.12/site-packages/checkmate-0.2.0-py3.12.egg/checkmate/contrib/plugins/javascript/jshint/js/
 
 # Install more Python packages
-RUN pip3 install email_validator
-RUN pip3 install testresources
-RUN pip3 install checkov
+RUN pip install checkov
 RUN pip install yara-scanner
 
 # Install Kubescape
@@ -115,8 +98,6 @@ RUN tar -xzf insider_3.0.0_linux_x86_64.tar.gz
 
 # Clone additional repositories
 WORKDIR /root
-RUN git clone https://github.com/marcinguy-bot/graudit-ce graudit
-RUN git clone https://github.com/marcinguy-bot/text4shell-ce text4shell-ce
 RUN mkdir /root/yara
 RUN cp -pr /srv/scanmycode/analyzers/yara/* /root/yara
 
