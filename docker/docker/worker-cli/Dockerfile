@@ -6,7 +6,7 @@ ENV CONTAINER_TIMEZONE=UTC
 ENV TZ=${CONTAINER_TIMEZONE}
 ENV SHELL=/bin/bash
 ENV PIPENV_IGNORE_VIRTUALENVS=1
-ENV ENV GOBIN="/usr/local/bin"
+ENV GOBIN="/usr/local/bin"
 
 
 # Install basic dependencies and set up environment in one RUN command
