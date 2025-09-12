@@ -76,8 +76,8 @@ RUN pip install bandit
 RUN npm install -g jshint
 
 # Download and extract PMD
-RUN wget https://github.com/pmd/pmd/releases/download/pmd_releases%2F6.41.0/pmd-bin-6.41.0.zip
-RUN unzip pmd-bin-6.41.0.zip
+RUN wget https://github.com/pmd/pmd/releases/download/pmd_releases%2F7.17.0/pmd-bin-7.17.0.zip
+RUN unzip pmd-bin-7.17.0.zip
 
 # Copy analyzer files
 RUN mkdir /root/phpscan/
