@@ -64,11 +64,11 @@ RUN ln -s /srv/scanmycode/quantifiedcode/settings/default.yml /srv/scanmycode/se
 # Install Go tools
 RUN mkdir -p /root/bin
 RUN go install github.com/securego/gosec/v2/cmd/gosec@latest
-RUN cp /usr/local/go/bin/gosec /root/bin/gosec
+RUN cp /usr/local/bin/gosec /root/bin/gosec
 RUN go install github.com/google/osv-scanner/cmd/osv-scanner@v1
-RUN cp /usr/local/go/bin/osv-scanner /root/bin/osv-scanner
+RUN cp /usr/local/bin/osv-scanner /root/bin/osv-scanner
 RUN go install honnef.co/go/tools/cmd/staticcheck@latest
-RUN cp /usr/local/go/bin/staticcheck /root/bin/staticcheck
+RUN cp /usr/local/bin/staticcheck /root/bin/staticcheck
 
 # Install other tools
 RUN gem install brakeman
