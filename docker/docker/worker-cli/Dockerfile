@@ -83,8 +83,8 @@ RUN cp /srv/scanmycode/analyzers/progpilot_dev20180720-215434.phar /root/phpscan
 RUN cp /srv/scanmycode/analyzers/find_unicode_control2.py /usr/local/bin/
 RUN cp -pr /srv/scanmycode/analyzers/custom-semgrep /root
 RUN cp /srv/scanmycode/analyzers/*.yml /root/
-RUN mkdir -p /usr/local/lib/python3.12/site-packages/checkmate-0.2.0-py3.12.egg/checkmate/contrib/plugins/javascript/jshint/js
-RUN cp /srv/scanmycode/analyzers/json_reporter.js /usr/local/lib/python3.12/site-packages/checkmate-0.2.0-py3.12.egg/checkmate/contrib/plugins/javascript/jshint/js/
+RUN mkdir -p /usr/local/lib/python3.12/site-packages/checkmate-4.3.0-dev2-py3.12.egg/checkmate/contrib/plugins/javascript/jshint/js
+RUN cp /srv/scanmycode/analyzers/json_reporter.js /usr/local/lib/python3.12/site-packages/checkmate-4.3.0-dev2-py3.12.egg/checkmate/contrib/plugins/javascript/jshint/js/
 
 # Install more Python packages
 RUN pip install checkov
