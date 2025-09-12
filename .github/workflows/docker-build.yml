@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        service: [worker-cli, server, worker]
+        service: [worker-cli]
         include:
           - service: server
             dockerfile: docker/docker/server/Dockerfile
